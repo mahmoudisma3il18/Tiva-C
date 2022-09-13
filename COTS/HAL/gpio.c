@@ -44,18 +44,18 @@ GPIO_PinDirection GPIO_GetPinDirection (uint32 PortBase,uint8 PinId) {
 }
 
 
-
 /*---------------------------------------------------------------------------------------------------
 Function Description : Sets the direction and mode of the specified pin(s).
 [Paramters]   : Port ,Pin and Direction
 ----------------------------------------------------------------------------------------------------*/
 void GPIO_SetPinDirection (uint32 PortBase,uint8 PinId,GPIO_PinDirection PinDirection) {
 	
-	if(PinDirection == PIN_INPUT)
+	    if(PinDirection == PIN_INPUT)
 				CLEAR_BIT(ACCESS_REG(PortBase,GPIODIR_OFFSET),PinId);
 			else
 				SET_BIT(ACCESS_REG(PortBase,GPIODIR_OFFSET),PinId);
 	
+			GPIO_UnlockPin(PortBase,PinId);
 			GPIO_TypeDigital(PortBase,PinId);
 
 }
@@ -86,7 +86,9 @@ void GPIO_SetPadConfig(uint32 PortBase,uint8 PinId,GPIO_PinStrength PinStrength,
 			}	
 			else if(PinType == GPIO_PIN_TYPE_OD){
 				GPIO_TypeDigital(PortBase,PinId);
+				GPIO_SetPinDirection(PortBase,PinId,PIN_OUTPUT);
 				SET_BIT(ACCESS_REG(PortBase,GPIOODR_OFFSET),PinId);
+				
 			}
 			else;
 		
@@ -119,7 +121,7 @@ PinId is the bit-packed representation of the pin(s).
 void GPIO_UnlockPin(uint32 PortBase,uint8 PinId) {
 	
 	ACCESS_REG(PortBase,GPIOLOCK_OFFSET) = 0x4C4F434B;
-	SET_BIT(ACCESS_REG(PortBase,GPIOCR_OFFSET),PinId);
+	SET_BIT(ACCESS_REG(PortBase,GPIOCR_OFFSET),1);
 	
 
 }
@@ -160,12 +162,14 @@ void GPIO_WritePin(uint32 PortBase,uint8 PinId,GPIO_Level Level) {
 		else
 			CLEAR_BIT(ACCESS_REG(PortBase,((PinId)<<2)),PinId);
 	
-
-	
 }
 
 
-
+/*------------------------------------------------------------------------------------------------------
+[Function Name] : GPIO_PortLevelType GPIO_ReadPort
+[Description] : This function is used to read the value of the Port.	
+[Parameters] : PortBase is the base address of the GPIO port.
+-------------------------------------------------------------------------------------------------------*/
 GPIO_PortLevel GPIO_ReadPort(uint32 PortBase) {
 	
 	uint8 value = (ACCESS_REG(PortBase,0x3FC)) & 0xFF ;

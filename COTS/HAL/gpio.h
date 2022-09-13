@@ -29,12 +29,12 @@
 #define  PIN_ID7         0x80
 
 
-#define PORT_A           0x01
-#define PORT_B           0x02
-#define PORT_C           0x04
-#define PORT_D           0x08
-#define PORT_E           0x10
-#define PORT_F           0x20
+#define PORTA_ID           0x01
+#define PORTB_ID           0x02
+#define PORTC_ID           0x04
+#define PORTD_ID           0x08
+#define PORTE_ID           0x10
+#define PORTF_ID           0x20
 
 
 typedef uint8 GPIO_PortLevel;
@@ -85,7 +85,7 @@ typedef enum {
 /*---------------------------------------------------------------------------------------------------
 [Function Name] : void GPIO_Init 
 [Description] : Inialtize Clock for GPIO Port.
-[Paramters]   : Specifed Port (PORT_F)
+[Paramters]   : Specifed Port (PORT_F,PORT_A)
 ----------------------------------------------------------------------------------------------------*/
 void GPIO_Init(uint8 PORT_ID);
 

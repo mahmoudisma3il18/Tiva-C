@@ -6,28 +6,23 @@
 
 #include "systick.h"
 
-/*********************************************************************************
-
-Description :
-This function stops the SysTick counter. If an interrupt handler has been registered
+/*----------------------------------------------------------------------------------
+[Function Name] : void SysTick_Disable
+[Descriptio] :This function stops the SysTick counter. If an interrupt handler has been registered
 , it is not called until SysTick is restarted.
-
-**************************************************************************************/
-
+-----------------------------------------------------------------------------------*/
 void SysTick_Disable(void) {
 	
 	SYSTICK_STCTRL.BF.ENABLE = 0x00;
 	
 }
 
-/*********************************************************************************
 
-Description :
-This function starts the SysTick counter. If an interrupt handler has been registered, it is called
+/*-------------------------------------------------------------------------------
+[Function Name] : void SysTick_Enable
+[Description] :This function starts the SysTick counter. If an interrupt handler has been registered, it is called
 when the SysTick counter rolls over
-
-**************************************************************************************/
-
+----------------------------------------------------------------------------------*/
 void SysTick_Enable (void)  {
 	
 	SYSTICK_STCTRL.BF.ENABLE  = 0x01;
@@ -36,13 +31,10 @@ void SysTick_Enable (void)  {
 }
 
 
-/*********************************************************************************
-
-Description :
-This function disables the SysTick interrupt, preventing it from being reflected to the processor.
-
-**************************************************************************************/
-
+/*--------------------------------------------------------------------------------------
+[Function Name] : void SysTick_IntDisable
+[Description] :This function disables the SysTick interrupt, preventing it from being reflected to the processor.
+------------------------------------------------------------------------------------------*/
 void SysTick_IntDisable (void) {
 	
 	SYSTICK_STCTRL.BF.INTEN = 0x00;
@@ -50,13 +42,10 @@ void SysTick_IntDisable (void) {
 }
 
 
-/*********************************************************************************
-
-Description :
-This function enables the SysTick interrupt, allowing it to be reflected to the processor.
-
-**************************************************************************************/
-
+/*----------------------------------------------------------------------------------
+[Function Name] : void SysTick_IntEnable 
+[Description] : This function enables the SysTick interrupt, allowing it to be reflected to the processor.
+---------------------------------------------------------------------------------------*/
 void SysTick_IntEnable (void) {
 	
 	SYSTICK_STCTRL.BF.INTEN = 0x01;
@@ -64,18 +53,11 @@ void SysTick_IntEnable (void) {
 }
 
 
-/*********************************************************************************
-
-Parameters:
-ui32Period is the number of clock ticks in each period of the SysTick counter and must be
-between 1 and 16, 777, 216, inclusive.
-
-Description :
-This function sets the rate at which the SysTick counter wraps, which equates to the number
+/*--------------------------------------------------------------------------------
+[Function Name]:void SysTick_PeriodSet
+[Description] :This function sets the rate at which the SysTick counter wraps, which equates to the number
 of processor clocks between interrupts.
-
-**************************************************************************************/
-
+----------------------------------------------------------------------------------*/
 void SysTick_PeriodSet(uint32 Ticks) {
 	
 	//To check if ticks are 24 - bits 
@@ -90,14 +72,12 @@ void SysTick_PeriodSet(uint32 Ticks) {
 
 
 
-/*********************************************************************************
 
-Description :
-This function returns the rate at which the SysTick counter wraps, which equates to the number
+/*----------------------------------------------------------------------------------
+[Function Name] : uint32 SysTick_PeriodGet
+[Description] :This function returns the rate at which the SysTick counter wraps, which equates to the number
 of processor clocks between interrupts.
-
-**************************************************************************************/
-
+-----------------------------------------------------------------------------------*/
 uint32 SysTick_PeriodGet(void)  {
 	
 	uint32 value = (SYSTICK_STRELOAD & 0xFFFFFF) + 1;
@@ -106,15 +86,11 @@ uint32 SysTick_PeriodGet(void)  {
 }
 
 
-/*********************************************************************************
-
-Description :
-scription:
-This function returns the current value of the SysTick counter, which is a value between the
+/*------------------------------------------------------------------------------------
+[Function Name] : uint32 SysTick_ValueGet
+[Description] : This function returns the current value of the SysTick counter, which is a value between the
 period - 1 and zero, inclusive.
-
-**************************************************************************************/
-
+-------------------------------------------------------------------------------------*/
 uint32 SysTick_ValueGet(void) {
 	
 	uint32 value = (SYSTICK_STCURRENT & 0xFFFFFF);
